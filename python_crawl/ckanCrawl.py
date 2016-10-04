@@ -13,7 +13,10 @@ class CrawlCKAN(object):
 		self.ckan_inst = RemoteCKAN(self.config["ckan"]["url"])
 		self.ckan_time = self.config["ckan"]["last_modified"]
 		self.wp = wordpress.WordpressCrawl(self.config)
-		
+
+		self.results=[]
+		self.results_error=[]
+
 	def do_process(self):
 		offset=0;
 		print "BEGIN PROCESSING "+str(self.current_time)
@@ -47,7 +50,8 @@ class CrawlCKAN(object):
 				resource_date = dateutil.parser.parse(resource["created"])
 				if resource_date<self.current_time and resource_date>self.ckan_time:
 					post.addResource(resource)
-			self.wp.postCkan(post)
+			post_id=self.wp.postCkan(post)
+			self.results.append({'title':dataset["title"],"content":post_id})
 		except KeyError:
 			self.publish_dataset_error(dataset)
 		return	
@@ -66,7 +70,14 @@ class CrawlCKAN(object):
 			resource_date = dateutil.parser.parse(resource["created"])
 			if resource_date>self.ckan_time:
 				post.addResource(resource)
-		print post.expandDataset(True)
+		post_content=post.expandDataset(True)
+		self.results_error.append({'title':dataset["title"],"content":post_content})
 
+	def get_day(self):
+		return self.current_time.strftime("%Y-%m-%d")
+
+	def get_results(self):
+		em=wordpress.CkanEmail(self.get_day(),self.results,self.results_error)
+		return em.expand()
 	
 

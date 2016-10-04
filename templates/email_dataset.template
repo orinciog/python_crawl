@@ -1,0 +1,6 @@
+<li>
+	<ul>
+	<li><strong>Title</strong>: ${dataset_title}</li>
+	<li><strong>Content</strong>: ${dataset_content}</li>
+	</ul>
+</li>	

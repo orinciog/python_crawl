@@ -7,3 +7,9 @@ wordpress:
   password: 
   url: 
   username: 
+smtp:
+  pass: 
+  port: 
+  server: 
+  to: 
+  user: 

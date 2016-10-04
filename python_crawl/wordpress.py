@@ -15,7 +15,7 @@ class WordpressCrawl(object):
 			'post_tag': ['python-autocrawl'],   'category': [self.config["wordpress"]["category"]]
 		}
 		post.content = ckanpost.expandDataset(False)
-		self.wp.call(NewPost(post))
+		return self.wp.call(NewPost(post))
 		
 	
 class CkanPost(object):
@@ -63,3 +63,42 @@ class CkanPost(object):
 			return self.template_resource.substitute(d)
 		else:
 			return self.template_resource.safe_substitute(d)
+
+class CkanEmail(object):
+	def __init__(self,day,datasets,error_datasets):
+		self.datasets=datasets
+		self.error_datasets=error_datasets
+		self.day=day
+		et = open( 'templates/email.template' )
+		self.template_email    = Template(et.read())
+		et.close()
+		dt = open( 'templates/email_dataset.template' )
+		self.template_dataset  = Template(dt.read())
+		dt.close()
+		
+	def expand(self):
+		d = dict()
+		str_res=""
+		i=0
+		for res in self.datasets:
+			i=i+1
+			str_res=str_res+self.expand_dataset(res)
+		d["datasets"]=str_res
+		d["datasets_number"]=i
+
+		i=0
+		str_res=""
+		for res in self.error_datasets:
+			i=i+1
+			str_res=str_res+self.expand_dataset(res)
+		d["error_datasets"]=str_res
+		d["error_datasets_number"]=i
+		d["day"]=self.day
+
+		return self.template_email.safe_substitute(d)
+	
+	def expand_dataset(self,dataset):
+		d = dict()
+		d["dataset_title"] = dataset["title"].encode('utf-8')
+		d["dataset_content"]=dataset["content"].encode('utf-8')
+		return self.template_dataset.safe_substitute(d)

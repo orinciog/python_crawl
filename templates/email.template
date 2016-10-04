@@ -1,0 +1,13 @@
+Results for ${day} <br/>
+
+<strong>${datasets_number} datasets</strong> modified:
+<ul>
+	${datasets}
+</ul>
+
+<strong>${error_datasets_number} datasets</strong> error:
+<ul>
+	${error_datasets}
+</ul>
+
+
