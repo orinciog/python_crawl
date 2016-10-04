@@ -1,0 +1,9 @@
+<li>
+	<ul>
+	<li><strong>Name</strong>: ${resource_name}</li>
+	<li><strong>Description</strong>: ${resource_description}</li>
+	<li><strong>URL</strong>: <a href='${resource_url}'>resource link</a></li>
+	<li><strong>Created</strong>: ${resource_time}</li>
+	<li><strong>Format</strong>: ${resource_format}</li>
+	</ul>
+</li>	

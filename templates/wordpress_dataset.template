@@ -1,0 +1,13 @@
+New dataset was modified on data.gov.ro on ${dataset_time}
+<ul>
+<li><strong>Title</strong>: ${dataset_title}</li>
+<li><strong>Description</strong>: ${dataset_notes}</li>
+<li><strong>URL</strong>: <a href='http://data.gov.ro/dataset/${dataset_name}'>http://data.gov.ro/dataset/${dataset_name}</a></ul></li>
+<li><strong>Author</strong>: ${dataset_author}</</a></ul></li>
+</ul>
+
+Newly added resources for this dataset are:
+<ol>
+${resources}
+</ol>
+
