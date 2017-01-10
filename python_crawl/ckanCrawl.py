@@ -32,7 +32,7 @@ class CrawlCKAN(object):
 		print "END PROCESSING"+str(self.current_time)
 		
 	def process_dataset(self,dataset):
-		print "PROCESS DATASET "+dataset["title"]
+		print "PROCESS DATASET "+dataset["title"].encode('utf-8')
 		dataset_date=dateutil.parser.parse(dataset["metadata_modified"])
 		if dataset_date<self.ckan_time:
 			return False
@@ -43,7 +43,7 @@ class CrawlCKAN(object):
 		return True
 		
 	def publish_dataset(self,dataset):
-		print "PUBLISH DATASET " +dataset["title"]
+		print "PUBLISH DATASET " +dataset["title"].encode('utf-8')
 		try:
 			post=wordpress.CkanPost(dataset)
 			for resource in dataset["resources"]:
@@ -64,7 +64,7 @@ class CrawlCKAN(object):
 		if dataset["name"] in self.config["ckan"]["error_names"]:
 			return
 		self.config["ckan"]["error_names"].append(dataset["name"])
-		print "PUBLISH ERROR DATASET " +dataset["title"] + " " + str(self.current_time)
+		print "PUBLISH ERROR DATASET " +dataset["title"].encode('utf-8') + " " + str(self.current_time)
 		post=wordpress.CkanPost(dataset)
 		for resource in dataset["resources"]:
 			resource_date = dateutil.parser.parse(resource["created"])
